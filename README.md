@@ -27,7 +27,7 @@ RIMMER: We can't find the auto destruct system.  It's wired up to
   something but we don't know what.  Tell the CAT.
 ```
 
-# (Original README for Shockolote below...)
+(Original README for Shockolate below...)
 
 Shockolate - System Shock, but cross platform!
 ============================
