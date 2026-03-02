@@ -9,6 +9,24 @@ SED4906
 
 Known issues: previously acquired filler items (patches) are given again when saving and loading.
 
+```
+LISTER: What's happening guys?  It's half ten.  I thought we were playing
+  poker?
+RIMMER: Where have you been?  Didn't you get the message?
+LISTER: What message?
+RIMMER: One of the skutters has gone bananas.  He's completely rewired
+  the maintenance decks back to front and upside down.  We've got over
+  two thousand wiring faults.  Don't breath.  Don't touch anything.
+  (Looking at LISTER) The whole ship is a gigantic booby trap.
+LISTER: No poker then?  (Looks very crestfallen.)
+
+RIMMER looks at LISTER as if to say, "You don't understand the gravity of
+this situation."
+
+RIMMER: We can't find the auto destruct system.  It's wired up to
+  something but we don't know what.  Tell the CAT.
+```
+
 # (Original README for Shockolote below...)
 
 Shockolate - System Shock, but cross platform!
