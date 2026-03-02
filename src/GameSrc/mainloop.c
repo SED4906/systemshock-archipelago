@@ -57,6 +57,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tools.h"
 #include "wrapper.h"
 
+#include "archipelago.h"
+
 // how is the game doing, anyway, set to true at end of time
 uchar cit_success = FALSE;
 
@@ -123,7 +125,11 @@ void loopmode_enter(short loopmode) { (*enter_modes[loopmode])(); }
 
 extern void MousePollProc(void);
 void mainloop(int argc, char *argv[]) {
+    archipelago_begin();
+
     while (_current_loop >= 0 && gPlayingGame) {
+        archipelago_update();
+
         gShockTicks = TickCount();
 
         if (!(_change_flag & (ML_CHG_BASE << 1)))

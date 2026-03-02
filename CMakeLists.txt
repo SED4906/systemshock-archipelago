@@ -1,6 +1,28 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.10)
 
 project(shockolate VERSION 0.7.8)
+
+include(FetchContent)
+FetchContent_Declare(
+        asio
+        URL https://github.com/chriskohlhoff/asio/archive/f693a3eb7fe72a5f19b975289afc4f437d373d9c.zip)
+FetchContent_Declare(
+        json
+        URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_Declare(
+        websocketpp
+        URL https://github.com/zaphoyd/websocketpp/archive/4dfe1be74e684acca19ac1cf96cce0df9eac2a2d.zip)
+# Desktop-only, without submodule:
+#FetchContent_Declare(
+#        wswrap
+#        URL https://github.com/black-sliver/wswrap/archive/d0505e0ec53a26743f11051949a0dc66bcf44951.zip)
+# Complete, with submodule:
+FetchContent_Declare(
+        wswrap
+        GIT_REPOSITORY https://github.com/black-sliver/wswrap.git
+        GIT_TAG d0505e0ec53a26743f11051949a0dc66bcf44951)
+
+FetchContent_MakeAvailable(asio json websocketpp wswrap)
 
 include(FeatureSummary)
 
@@ -12,7 +34,7 @@ set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS ON)
 # Required for stdbool.h
 set(CMAKE_C_STANDARD 99)
 # For nullptr in C++
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g ")
@@ -38,7 +60,7 @@ set_property(CACHE ENABLE_FLUIDSYNTH PROPERTY STRINGS "ON" "BUNDLED" "OFF")
 add_feature_info(ENABLE_FLUIDSYNTH ENABLE_FLUIDSYNTH "Enable FluidSynth MIDI support")
 
 # HAAAAX!!
-add_definitions(-DSVGA_SUPPORT)
+add_definitions(-DSVGA_SUPPORT -DAP_NO_SCHEMA)
 
 if(ENABLE_DEBUG_BLIT)
 	add_definitions(-DDEBUGGING_BLIT)
@@ -273,6 +295,7 @@ set(GAME_SRC
 	src/GameSrc/wrapper.c
 	src/GameSrc/gamerend.c
 	src/GameSrc/mouselook.c
+	src/GameSrc/archipelago.cpp
 )
 
 include_directories(
@@ -391,6 +414,9 @@ if(MINGW)
 	set(WINDOWS_LIBRARIES "mingw32 -mwindows")
 endif(MINGW)
 
+find_package(OpenSSL)
+find_package(ZLIB)
+
 target_link_libraries(systemshock
 	${WINDOWS_LIBRARIES} # Set it before any linker options! Beware WinMain@16 error!!
 	GAME_LIB
@@ -411,6 +437,9 @@ target_link_libraries(systemshock
 	EDMS_LIB
 	FIXPP_LIB
 	ADLMIDI_LIB
+	OpenSSL::Crypto
+	OpenSSL::SSL
+	ZLIB::ZLIB
 	${SDL2_LIBRARIES}
 	${SDL2_MIXER_LIBRARIES}
 	${FLUIDSYNTH_LIBRARIES}

@@ -1,3 +1,16 @@
+# System Shock Archipelago Client
+
+Once built and set up like the normal version of Shockolate, create an `archipelago.conf` file containing 3 lines for URI, Slot, and Password (example contents below):
+```
+ws://localhost:38281
+SED4906
+
+```
+
+Known issues: previously acquired filler items (patches) are given again when saving and loading.
+
+# (Original README for Shockolote below...)
+
 Shockolate - System Shock, but cross platform!
 ============================
 Based on the source code for PowerPC released by Night Dive Studios, Incorporated.

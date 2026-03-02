@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "miscqvar.h"
 
+#include "archipelago.h"
+
 #define CFG_FATIGUE_VAR "fatigue"
 
 Player player_struct;
@@ -166,6 +168,8 @@ errtype init_player(Player *pplr) {
 
     // init physics stuff
     player_reset_eye();
+
+    archipelago_reset();
 
     return OK;
 }

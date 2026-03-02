@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "objects.h"
 #include "map.h"
 
+#include "archipelago.h"
+
 // Defines
 #define DEGREES_OF_FREEDOM 6 // number of physics control axes.
 
@@ -80,15 +82,16 @@ typedef enum {
 
 // Some questbitty stuff
 #define NUM_QUESTBITS 512
-#define QUESTBIT_GET(qnum) (player_struct.questbits[((qnum) / 8u)] & (1u << ((qnum) % 8u)))
-#define QUESTBIT_ON(qnum)  (player_struct.questbits[((qnum) / 8u)] |= (1u << ((qnum) % 8u)))
-#define QUESTBIT_OFF(qnum) (player_struct.questbits[((qnum) / 8u)] &= ~(1u << ((qnum) % 8u)))
+#define QUESTBIT_GET(qnum) (/*printf("%s:%d QUESTBIT_GET(%x)\n", __func__, __LINE__, qnum),*/ player_struct.questbits[((qnum) / 8u)] & (1u << ((qnum) % 8u)))
+#define QUESTBIT_ON(qnum)  (printf("%s:%d QUESTBIT_ON(%x)\n", __func__, __LINE__,qnum), player_struct.questbits[((qnum) / 8u)] |= archipelago_intercept_questbit_on(qnum) ? (1u << ((qnum) % 8u)) : 0)
+#define QUESTBIT_OFF(qnum) (printf("%s:%d QUESTBIT_OFF(%x)\n", __func__, __LINE__, qnum), player_struct.questbits[((qnum) / 8u)] &= archipelago_intercept_questbit_off(qnum) ? ~(1u << ((qnum) % 8u)) : ~0)
 
 #define NUM_QUESTVARS 64
-#define QUESTVAR_GET(qnum) (player_struct.questvars[(qnum)])
+#define QUESTVAR_GET(qnum) (/*printf("%s:%d QUESTVAR_GET(%x)\n", __func__, __LINE__, qnum),*/ player_struct.questvars[(qnum)])
 #define QUESTVAR_SET(qnum, x)                  \
     do {                                       \
-        player_struct.questvars[(qnum)] = (x); \
+        printf("%s:%d QUESTVAR_SET(%x, %x)\n", __func__, __LINE__, qnum, x); \
+        player_struct.questvars[(qnum)] = archipelago_intercept_questvar_set(qnum, x, __func__); \
     } while (0)
 
 #define COMBAT_DIFF_INDEX 0

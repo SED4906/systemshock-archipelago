@@ -71,6 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trigger.h"
 #include "verify.h"
 
+#include "archipelago.h"
 
 // INTERNAL PROTOTYPES
 // -----------------
@@ -1383,6 +1384,8 @@ out:
        }
        _MARK_("load_current_map:End");
     */
+
+    archipelago_reset();
 
     return retval;
 }
